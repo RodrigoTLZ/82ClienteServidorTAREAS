@@ -9,6 +9,5 @@ namespace BinarioUDPServidor.Models
     public class Usuario
     {
         public string Nombre { get; set; } = null!;
-        public int Respuesta { get; set; }
     }
 }
