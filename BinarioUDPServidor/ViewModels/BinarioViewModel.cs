@@ -33,11 +33,11 @@ namespace BinarioUDPServidor.ViewModels
             
             if(e.Respuesta == BinarioGenerado)
             {
-                var ganador;
+                UsuariosGanadores.Add(e.NombreUsuario);
             }
             else
             {
-
+                UsuariosPerdedores.Add(e.NombreUsuario);
             }
         }
 

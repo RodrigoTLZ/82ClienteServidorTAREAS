@@ -8,7 +8,7 @@ namespace BinarioUDPServidor.Models.DTOs
 {
     public class BinarioDTO
     {
-        public string Nombre { get; set; } = null!;
+        public Usuario NombreUsuario { get; set; } = null!;
         public string Respuesta { get; set; } = null!;
     }
 }
