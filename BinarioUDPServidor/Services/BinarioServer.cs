@@ -29,6 +29,8 @@ namespace BinarioUDPServidor.Services
             IPEndPoint remoto = new(IPAddress.Any, 5000);
             byte[] buffer = server.Receive(ref remoto);
 
+            
+
 
             BinarioDTO? dto = JsonSerializer.Deserialize<BinarioDTO>(Encoding.UTF8.GetString(buffer));
 
