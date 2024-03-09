@@ -14,7 +14,6 @@ namespace BinarioUDPServidor.Services
 {
     public class BinarioServer
     {
-        private UdpClient cliente;
         public event EventHandler<BinarioDTO> RespuestaRecibida;
 
         public BinarioServer()
