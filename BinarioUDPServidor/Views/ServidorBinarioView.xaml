@@ -5,23 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:BinarioUDPServidor.ViewModels"
         xmlns:local="clr-namespace:BinarioUDPServidor.Views"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Title="ServidorBinarioView" Height="450" Width="800">
+        Title="ServidorBinarioView" Height="500" Width="700">
     <Window.DataContext>
         <vm:BinarioViewModel></vm:BinarioViewModel>
     </Window.DataContext>
-    <Window.Background>
-        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-            <GradientStop Color="#FF99CC" Offset="0"/>
-            <GradientStop Color="#CC99FF" Offset="1"/>
-        </LinearGradientBrush>
-    </Window.Background>
     <Window.Resources>
+        <Style TargetType="GridViewColumnHeader">
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="20"/>
+            
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
         <Style x:Key="text1" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Arial"/>
             <Setter Property="TextAlignment" Value="Center"/>
             <Setter Property="FontSize" Value="20"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="#333333"/>
             <Setter Property="Visibility" Value="Collapsed"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding MostrarBinario}" Value="True">
@@ -36,12 +38,13 @@
             <Setter Property="Background" Value="White"/>
             <Setter Property="FontFamily" Value="Arial"/>
             <Setter Property="FontWeight" Value="DemiBold"/>
+            <Setter Property="Foreground" Value="White"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="White" Padding="10" CornerRadius="5">
+                        <Border Background="#E6539E" Padding="10" CornerRadius="5">
                             <ContentPresenter HorizontalAlignment="Center"
-                 VerticalAlignment="Center"/>
+              VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
@@ -49,16 +52,32 @@
 
         </Style>
     </Window.Resources>
-    <StackPanel>
-        <DockPanel DockPanel.Dock="Top">
+    <StackPanel Background="#F4F4F4">
+        <Border  Margin="0 0 0 30" Height="60">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#FF99CC" Offset="0"/>
+                    <GradientStop Color="#CC99FF" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <DockPanel DockPanel.Dock="Top">
 
-            <Button Style="{StaticResource Button}" DockPanel.Dock="Right" Command="{Binding ReiniciarCommand}">Reiniciar</Button>
-            <TextBlock FontFamily="Arial" FontWeight="Thin"  FontSize="25" Margin="5" Text="{Binding IP}"></TextBlock>
-        </DockPanel>
-        <TextBlock Style="{StaticResource text1}">Numero: <Run Foreground="Yellow" Text="{Binding BinarioGenerado}" ></Run></TextBlock>
+                <Button Style="{StaticResource Button}" DockPanel.Dock="Right" Command="{Binding ReiniciarCommand}" >
+                    <DockPanel>
+                        <fa:ImageAwesome Icon="Spinner" Spin="True" SpinDuration="10" Foreground="White" Margin="2" Height="15"/>
+                        <TextBlock FontSize="20" >Reiniciar</TextBlock>
+                    </DockPanel>
+                </Button>
+                <TextBlock FontWeight="Bold"  FontSize="25" Margin="5" Foreground="White" Text="{Binding IP}" ></TextBlock>
+            </DockPanel>
+        </Border>
+        <TextBlock FontSize="20" Style="{StaticResource text1}">Número: <Run Foreground="Red" FontWeight="Black" Text="{Binding BinarioGenerado}" ></Run></TextBlock>
         <StackPanel HorizontalAlignment="Center" Margin="30" Height="230">
-            <TextBlock Style="{StaticResource text1}">Usuarios ganadores</TextBlock>
-            <ListView  ItemsSource="{Binding UsuariosGanadores}" Margin="5" Grid.Column="0">
+            <DockPanel>
+                <fa:ImageAwesome Icon="Trophy" Height="25"/>
+                <TextBlock FontSize="20" HorizontalAlignment="Center">Usuarios ganadores</TextBlock>
+            </DockPanel>
+            <ListView  BorderBrush="Black" FontSize="15" BorderThickness="0"  ItemsSource="{Binding UsuariosGanadores}" Margin="5" Grid.Column="0">
                 <ListView.View>
                     <GridView >
                         <GridViewColumn Header="Nombre" Width="200" DisplayMemberBinding="{Binding Nombre}"></GridViewColumn>

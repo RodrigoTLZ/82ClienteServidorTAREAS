@@ -6,25 +6,69 @@
         xmlns:vm="clr-namespace:BinarioUDPCliente.ViewModels"
         xmlns:local="clr-namespace:BinarioUDPCliente.Views"
         mc:Ignorable="d"
-        Title="ClienteMainView" Height="450" Width="700">
+        Title="ClienteMainView" Height="400" Width="500">
     <Window.DataContext>
         <vm:BinarioViewModel></vm:BinarioViewModel>
     </Window.DataContext>
-    <StackPanel>
-        <TextBlock>Adivina el binario</TextBlock>
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="15"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="50,0,0,0"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Width" Value="200"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="FontWeight" Value="DemiBold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="#4CD299" Padding="10" CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="Center"
+          VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+    </Window.Resources>
+
+    <StackPanel >
+        <Border  Margin="0 0 0 30" Height="40">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#88FFCC" Offset="0"/>
+                    <GradientStop Color="#CC99FF" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <TextBlock HorizontalAlignment="Center" Margin="5" FontSize="20" FontWeight="Bold" Foreground="White">Adivina el binario</TextBlock>
+        </Border>
         <StackPanel Margin="20">
-            <WrapPanel>
-                <TextBlock Text="IP" HorizontalAlignment="Left"  Margin="0,12,0,0"/>
-                <TextBox Margin="200,10,10,0" Width="200" Height="20" VerticalAlignment="Top" Text="{Binding IP}"/>
-            </WrapPanel>
-            
-            <WrapPanel>
-                <TextBlock Text="Respuesta:" HorizontalAlignment="Left"  Margin="0,12,0,0"/>
-                <TextBox Margin="200,10,10,0" Width="200" Height="20" VerticalAlignment="Top" Text="{Binding Datos.RespuestaUsuario}"/>
-            </WrapPanel>
+            <DockPanel HorizontalAlignment="Center">
+                <TextBlock Text="IP:   " />
+                <TextBox Text="{Binding IP}"/>
+            </DockPanel>
+
+            <DockPanel HorizontalAlignment="Center">
+                <TextBlock Text="Respuesta:" HorizontalAlignment="Center" Margin="5"/>
+                <TextBox  Width="200" Margin="5"  Height="20" Text="{Binding Datos.RespuestaUsuario}"/>
+            </DockPanel>
+           
 
             <Button Content="Enviar Respuesta" Margin="10,50,10,10" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding EnviarRespuestaCommand}"/>
         </StackPanel>
-        <local:MensajeView Visibility="Collapsed"></local:MensajeView>
+        <local:MensajeView Visibility="Collapsed" Margin="25,0,25,0" HorizontalAlignment="Center"></local:MensajeView>
     </StackPanel>
 </Window>
