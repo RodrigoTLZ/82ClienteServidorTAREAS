@@ -17,12 +17,9 @@
                 <TextBlock Text="IP" HorizontalAlignment="Left"  Margin="0,12,0,0"/>
                 <TextBox Margin="200,10,10,0" Width="200" Height="20" VerticalAlignment="Top" Text="{Binding IP}"/>
             </WrapPanel>
+            
             <WrapPanel>
-                <TextBlock Text="Nombre:" HorizontalAlignment="Left"  Margin="0,12,0,0"/>
-                <TextBox Margin="200,10,10,0" Width="200" Height="20" VerticalAlignment="Top"  Text="{Binding Datos.NombreUsuario}"/>
-            </WrapPanel>
-            <WrapPanel>
-                <TextBlock Text="Número Binario:" HorizontalAlignment="Left"  Margin="0,12,0,0"/>
+                <TextBlock Text="Respuesta:" HorizontalAlignment="Left"  Margin="0,12,0,0"/>
                 <TextBox Margin="200,10,10,0" Width="200" Height="20" VerticalAlignment="Top" Text="{Binding Datos.RespuestaUsuario}"/>
             </WrapPanel>
 

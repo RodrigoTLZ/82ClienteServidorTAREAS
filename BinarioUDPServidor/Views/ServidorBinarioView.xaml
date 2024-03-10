@@ -67,6 +67,5 @@
             </ListView>
         </StackPanel>
 
-        <Button Style="{StaticResource Button}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Command="{Binding GenerarBinarioCommand}">Generar nuevo binario</Button>
     </StackPanel>
 </Window>
