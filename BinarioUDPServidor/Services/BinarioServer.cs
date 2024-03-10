@@ -1,7 +1,6 @@
 ﻿using BinarioUDPServidor.Models.DTOs;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -14,12 +13,10 @@ using System.Windows.Threading;
 
 namespace BinarioUDPServidor.Services
 {
-    public class BinarioServer:INotifyPropertyChanged
+    public class BinarioServer
     {
         public UdpClient server;
         public event EventHandler<BinarioDTO>? RespuestaRecibida;
-        public event PropertyChangedEventHandler? PropertyChanged;
-
         private bool seguirEscuchando = true;
 
         public BinarioServer()
@@ -31,11 +28,12 @@ namespace BinarioUDPServidor.Services
             hilo.Start();
         }
 
-        private async void EscucharRespuestas()
+        private void EscucharRespuestas()
         {
+
             server = new UdpClient(10000);
             DispatcherTimer timerRespuestas = new DispatcherTimer();
-            timerRespuestas.Interval = TimeSpan.FromSeconds(30);
+            timerRespuestas.Interval = TimeSpan.FromSeconds(5);
             timerRespuestas.Tick += (sender, e) =>
             {
                 seguirEscuchando = false;
@@ -46,25 +44,27 @@ namespace BinarioUDPServidor.Services
 
             try
             {
-                while (seguirEscuchando)
-                {
-                    UdpReceiveResult result = await server.ReceiveAsync();
-                    byte[] buffer = result.Buffer;
+                    IPEndPoint remoto = new(IPAddress.Any, 10000);
+                    byte[] buffer = server.Receive(ref remoto);
+
                     BinarioDTO? dto = JsonSerializer.Deserialize<BinarioDTO>(Encoding.UTF8.GetString(buffer));
 
-                    if (dto != null)
+                    if(dto != null)
                     {
-                        Application.Current.Dispatcher.Invoke(() =>
+                        while (seguirEscuchando)
                         {
-                            RespuestaRecibida?.Invoke(this, dto);
-                        });
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                RespuestaRecibida?.Invoke(this, dto);
+                            });
+                        }
+                        
                     }
-                }
-
+              
             }
             catch (Exception)
             {
-
+                
             }
         }
 
