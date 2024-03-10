@@ -23,7 +23,6 @@ namespace BinarioUDPServidor.ViewModels
         BinarioServer servidor = new();
 
         public List<Usuario> UsuariosGanadores { get; set; } = new();
-        public List<Usuario> UsuariosPerdedores { get; set; } = new();
 
         public ICommand GenerarBinarioCommand { get; set; }
         public ICommand ReiniciarCommand { get; set; }
@@ -46,10 +45,6 @@ namespace BinarioUDPServidor.ViewModels
             if(e.RespuestaUsuario == BinarioGenerado)
             {
                 UsuariosGanadores.Add(new Usuario { Nombre = e.NombreUsuario });
-            }
-            else
-            {
-                UsuariosPerdedores.Add(new Usuario { Nombre = e.NombreUsuario });
             }
             ActualizarDatos();
         }
@@ -77,7 +72,6 @@ namespace BinarioUDPServidor.ViewModels
         private void Reiniciar()
         {
             UsuariosGanadores.Clear();
-            UsuariosPerdedores.Clear();
             GenerarBinario();
             ActualizarDatos();
         }
