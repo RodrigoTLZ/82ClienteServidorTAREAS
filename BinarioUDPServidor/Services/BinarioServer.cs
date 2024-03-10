@@ -1,6 +1,7 @@
 ﻿using BinarioUDPServidor.Models.DTOs;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -13,67 +14,59 @@ using System.Windows.Threading;
 
 namespace BinarioUDPServidor.Services
 {
-    public class BinarioServer
+    public class BinarioServer:INotifyPropertyChanged
     {
+        public UdpClient server;
+        public event EventHandler<BinarioDTO>? RespuestaRecibida;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        private UdpClient server;
-        private DispatcherTimer timer;
-        public event EventHandler<BinarioDTO> RespuestaRecibida;
-        private bool seguirEscuchando;
+        private bool seguirEscuchando = true;
 
         public BinarioServer()
         {
-            Iniciar();
+            var hilo = new Thread(new ThreadStart(EscucharRespuestas))
+            {
+                IsBackground = true
+            };
+            hilo.Start();
         }
 
-        private void Iniciar()
+        private async void EscucharRespuestas()
         {
             server = new UdpClient(10000);
+            DispatcherTimer timerRespuestas = new DispatcherTimer();
+            timerRespuestas.Interval = TimeSpan.FromSeconds(30);
+            timerRespuestas.Tick += (sender, e) =>
+            {
+                seguirEscuchando = false;
+                timerRespuestas.Stop();
+                server.Close();
+            };
+            timerRespuestas.Start();
 
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(30);
-            timer.Tick += Timer_Tick;
-            timer.Start();
-
-            Thread thread = new Thread(EscucharRespuestas);
-            thread.IsBackground = true;
-            thread.Start();
-        }
-
-        private void EscucharRespuestas(object? obj)
-        {
             try
             {
                 while (seguirEscuchando)
                 {
-                    IPEndPoint remoto = new IPEndPoint(IPAddress.Any, 10000);
-                    byte[] buffer = server.Receive(ref remoto);
-                    BinarioDTO dto = JsonSerializer.Deserialize<BinarioDTO>(Encoding.UTF8.GetString(buffer));
-                    EnviarRespuestaRecibida(dto);
+                    UdpReceiveResult result = await server.ReceiveAsync();
+                    byte[] buffer = result.Buffer;
+                    BinarioDTO? dto = JsonSerializer.Deserialize<BinarioDTO>(Encoding.UTF8.GetString(buffer));
+
+                    if (dto != null)
+                    {
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            RespuestaRecibida?.Invoke(this, dto);
+                        });
+                    }
                 }
+
             }
             catch (Exception)
             {
-                
-            }
-            finally
-            {
-                server.Close();
+
             }
         }
 
-        private void EnviarRespuestaRecibida(BinarioDTO? dto)
-        {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                RespuestaRecibida?.Invoke(this, dto);
-            });
-        }
-
-        private void Timer_Tick(object? sender, EventArgs e)
-        {
-            timer.Stop();
-            seguirEscuchando = false;
-        }
     }
 }

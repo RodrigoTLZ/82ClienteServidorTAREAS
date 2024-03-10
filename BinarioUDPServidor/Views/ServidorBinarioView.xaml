@@ -61,7 +61,7 @@
             <ListView  ItemsSource="{Binding UsuariosGanadores}" Margin="5" Grid.Column="0">
                 <ListView.View>
                     <GridView >
-                        <GridViewColumn Header="Nombre" Width="200" DisplayMemberBinding="{Binding NombreUsuario}"></GridViewColumn>
+                        <GridViewColumn Header="Nombre" Width="200" DisplayMemberBinding="{Binding Nombre}"></GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>

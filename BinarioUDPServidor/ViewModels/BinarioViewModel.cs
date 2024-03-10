@@ -19,10 +19,11 @@ namespace BinarioUDPServidor.ViewModels
         public string IP { get; set; } = "0.0.0.0";
 
         public string BinarioGenerado { get; set; }
+        public int NumeroEnteroDecimal { get; set; }
         public bool MostrarBinario { get; set; } = true;
         BinarioServer servidor = new();
 
-        public List<Usuario> UsuariosGanadores { get; set; } = new();
+        public ObservableCollection<Usuario> UsuariosGanadores { get; set; } = new();
 
         public ICommand GenerarBinarioCommand { get; set; }
         public ICommand ReiniciarCommand { get; set; }
@@ -33,16 +34,17 @@ namespace BinarioUDPServidor.ViewModels
 
             IP = ips.Where(x => x.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork).
                 Select(x => x.ToString()).FirstOrDefault() ?? "0.0.0.0";
+
             GenerarBinarioCommand = new RelayCommand(GenerarBinario);
             ReiniciarCommand = new RelayCommand(Reiniciar);
+
             servidor.RespuestaRecibida += Servidor_RespuestaRecibida;
             Reiniciar();
         }
 
         private void Servidor_RespuestaRecibida(object? sender, Models.DTOs.BinarioDTO e)
         {
-            
-            if(e.RespuestaUsuario == BinarioGenerado)
+            if (e.RespuestaUsuario == NumeroEnteroDecimal)
             {
                 UsuariosGanadores.Add(new Usuario { Nombre = e.NombreUsuario });
             }
@@ -52,8 +54,8 @@ namespace BinarioUDPServidor.ViewModels
         private void GenerarBinario()
         {
             Random random = new Random();
-            int numeroEntero = random.Next(1, 256);
-            BinarioGenerado = Convert.ToString(numeroEntero, 2);
+            NumeroEnteroDecimal = random.Next(1, 256);
+            BinarioGenerado = Convert.ToString(NumeroEnteroDecimal, 2);
 
             MostrarBinario = true;
             DispatcherTimer timer = new DispatcherTimer();
