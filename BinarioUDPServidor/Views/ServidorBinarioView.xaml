@@ -53,7 +53,7 @@
         <DockPanel DockPanel.Dock="Top">
 
             <Button Style="{StaticResource Button}" DockPanel.Dock="Right" Command="{Binding ReiniciarCommand}">Reiniciar</Button>
-            <TextBlock FontFamily="Arial" FontWeight="Thin"  FontSize="25" Margin="5">Adivina el binario</TextBlock>
+            <TextBlock FontFamily="Arial" FontWeight="Thin"  FontSize="25" Margin="5" Text="{Binding IP}"></TextBlock>
         </DockPanel>
         <TextBlock Style="{StaticResource text1}">Numero: <Run Foreground="Yellow" Text="{Binding BinarioGenerado}" ></Run></TextBlock>
         <StackPanel HorizontalAlignment="Center" Margin="30" Height="230">
