@@ -7,6 +7,9 @@
         xmlns:local="clr-namespace:BinarioUDPServidor.Views"
         mc:Ignorable="d"
         Title="ServidorBinarioView" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:BinarioViewModel></vm:BinarioViewModel>
+    </Window.DataContext>
     <Window.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
             <GradientStop Color="#FF99CC" Offset="0"/>
@@ -19,6 +22,12 @@
             <Setter Property="TextAlignment" Value="Center"/>
             <Setter Property="FontSize" Value="20"/>
             <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding MostrarBinario}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
         <Style x:Key="Button" TargetType="Button">
             <Setter Property="BorderThickness" Value="0"/>
@@ -43,22 +52,21 @@
     <StackPanel>
         <DockPanel DockPanel.Dock="Top">
 
-            <Button Style="{StaticResource Button}" DockPanel.Dock="Right" >Reiniciar</Button>
+            <Button Style="{StaticResource Button}" DockPanel.Dock="Right" Command="{Binding ReiniciarCommand}">Reiniciar</Button>
             <TextBlock FontFamily="Arial" FontWeight="Thin"  FontSize="25" Margin="5">Adivina el binario</TextBlock>
         </DockPanel>
-        <TextBlock Style="{StaticResource text1}">Numero: <Run Foreground="Yellow">101010</Run></TextBlock>
+        <TextBlock Style="{StaticResource text1}">Numero: <Run Foreground="Yellow" Text="{Binding BinarioGenerado}" ></Run></TextBlock>
         <StackPanel HorizontalAlignment="Center" Margin="30" Height="230">
             <TextBlock Style="{StaticResource text1}">Usuarios ganadores</TextBlock>
             <ListView  ItemsSource="{Binding UsuariosGanadores}" Margin="5" Grid.Column="0">
                 <ListView.View>
                     <GridView >
                         <GridViewColumn Header="Nombre" Width="200" DisplayMemberBinding="{Binding NombreUsuario}"></GridViewColumn>
-                        <GridViewColumn Header="Respuesta" Width="200" DisplayMemberBinding="{Binding RespuestaUsuario}"></GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>
         </StackPanel>
 
-        <Button Style="{StaticResource Button}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10">Generar nuevo binario</Button>
+        <Button Style="{StaticResource Button}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Command="{Binding GenerarBinarioCommand}">Generar nuevo binario</Button>
     </StackPanel>
 </Window>

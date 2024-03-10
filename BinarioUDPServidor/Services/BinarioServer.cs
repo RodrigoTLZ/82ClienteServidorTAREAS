@@ -9,38 +9,71 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace BinarioUDPServidor.Services
 {
     public class BinarioServer
     {
+
+        private UdpClient server;
+        private DispatcherTimer timer;
         public event EventHandler<BinarioDTO> RespuestaRecibida;
+        private bool seguirEscuchando;
 
         public BinarioServer()
         {
-            var hilo = new Thread(new ThreadStart(Iniciar));
-            hilo.IsBackground = true;
-            hilo.Start();
+            Iniciar();
         }
 
         private void Iniciar()
         {
-            UdpClient server = new(5000);
-            IPEndPoint remoto = new(IPAddress.Any, 5000);
-            byte[] buffer = server.Receive(ref remoto);
+            server = new UdpClient(10000);
 
-            
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(30);
+            timer.Tick += Timer_Tick;
+            timer.Start();
 
+            Thread thread = new Thread(EscucharRespuestas);
+            thread.IsBackground = true;
+            thread.Start();
+        }
 
-            BinarioDTO? dto = JsonSerializer.Deserialize<BinarioDTO>(Encoding.UTF8.GetString(buffer));
-
-            if(dto != null)
+        private void EscucharRespuestas(object? obj)
+        {
+            try
             {
-                Application.Current.Dispatcher.Invoke(() =>
+                while (seguirEscuchando)
                 {
-                    RespuestaRecibida?.Invoke(this, dto);
-                });
+                    IPEndPoint remoto = new IPEndPoint(IPAddress.Any, 10000);
+                    byte[] buffer = server.Receive(ref remoto);
+                    BinarioDTO dto = JsonSerializer.Deserialize<BinarioDTO>(Encoding.UTF8.GetString(buffer));
+                    EnviarRespuestaRecibida(dto);
+                }
             }
+            catch (Exception)
+            {
+                
+            }
+            finally
+            {
+                server.Close();
+            }
+        }
+
+        private void EnviarRespuestaRecibida(BinarioDTO? dto)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                RespuestaRecibida?.Invoke(this, dto);
+            });
+        }
+
+        private void Timer_Tick(object? sender, EventArgs e)
+        {
+            timer.Stop();
+            seguirEscuchando = false;
         }
     }
 }

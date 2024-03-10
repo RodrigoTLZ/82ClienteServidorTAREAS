@@ -17,7 +17,7 @@ namespace BinarioUDPCliente.Services
    
         public void EnviarRespuesta(BinarioDTO dto)
         {
-            var ipe = new IPEndPoint(IPAddress.Parse(Servidor), 5000);
+            var ipe = new IPEndPoint(IPAddress.Parse(Servidor), 10000);
             var json = JsonSerializer.Serialize(dto);
             byte[] buffer = Encoding.UTF8.GetBytes(json);
 
