@@ -56,19 +56,19 @@
             <TextBlock HorizontalAlignment="Center" Margin="5" FontSize="20" FontWeight="Bold" Foreground="White">Adivina el binario</TextBlock>
         </Border>
         <StackPanel Margin="20">
-            <DockPanel HorizontalAlignment="Center">
-                <TextBlock Text="IP:    " />
-                <TextBox Text="{Binding IP}"/>
-            </DockPanel>
+            <WrapPanel>
+                <TextBlock Width="100" Text="IP:" />
+                <TextBox Text="{Binding IP}" Height="20"/>
+            </WrapPanel>
 
-            <DockPanel HorizontalAlignment="Center">
-                <TextBlock Text="Respuesta:" HorizontalAlignment="Center" Margin="5"/>
-                <TextBox  Width="200" Margin="5"  Height="20" Text="{Binding Datos.RespuestaUsuario}"/>
-            </DockPanel>
-           
+            <WrapPanel>
+                <TextBlock Text="Respuesta:" Width="100" />
+                <TextBox   Height="20" Text="{Binding Datos.RespuestaUsuario, Mode=TwoWay}"/>
+            </WrapPanel>
+
 
             <Button Content="Enviar Respuesta" Margin="10,50,10,10" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding EnviarRespuestaCommand}"/>
         </StackPanel>
-        <local:MensajeView Visibility="Collapsed" Margin="25,0,25,0" HorizontalAlignment="Center"></local:MensajeView>
+        <TextBlock Text="{Binding Mensaje}" FontSize="20"></TextBlock>
     </StackPanel>
 </Window>

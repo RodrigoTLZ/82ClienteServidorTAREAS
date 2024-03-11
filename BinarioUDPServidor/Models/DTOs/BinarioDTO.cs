@@ -10,6 +10,9 @@ namespace BinarioUDPServidor.Models.DTOs
     {
         public string NombreUsuario { get; set; } = null!;
         public int RespuestaUsuario { get; set; }
+        public string IPCliente { get; set; } = null!;
+        public string Mensaje { get; set; } = null!;
+
 
     }
 }
