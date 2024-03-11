@@ -65,7 +65,7 @@
                 <Button Style="{StaticResource Button}" DockPanel.Dock="Right" Command="{Binding ReiniciarCommand}" >
                     <DockPanel>
                         <fa:ImageAwesome Icon="Spinner" Spin="True" SpinDuration="10" Foreground="White" Margin="2" Height="15"/>
-                        <TextBlock FontSize="20" >Reiniciar</TextBlock>
+                        <TextBlock FontSize="20" >Generar número</TextBlock>
                     </DockPanel>
                 </Button>
                 <TextBlock FontWeight="Bold"  FontSize="25" Margin="5" Foreground="White" Text="{Binding IP}" ></TextBlock>
@@ -84,7 +84,6 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <TextBlock FontWeight="Bold" HorizontalAlignment="Center">No hubo ganadores en esta ronda</TextBlock>
         </StackPanel>
 
     </StackPanel>

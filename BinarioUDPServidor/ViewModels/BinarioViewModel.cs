@@ -50,7 +50,9 @@ namespace BinarioUDPServidor.ViewModels
             ReiniciarCommand = new RelayCommand(Reiniciar);
 
             servidor.RespuestaRecibida += Servidor_RespuestaRecibida;
-            Reiniciar();
+            UsuariosGanadores.Clear();
+            RespuestasCorrectas.Clear();
+            ActualizarDatos();
         }
 
         private void Servidor_RespuestaRecibida(object? sender, Models.DTOs.BinarioDTO e)
@@ -109,9 +111,10 @@ namespace BinarioUDPServidor.ViewModels
                 ActualizarDatos();
             };
             timer.Start();
+            ActualizarDatos();
 
-           
-           
+
+
         }
 
         private void Reiniciar()
@@ -125,10 +128,11 @@ namespace BinarioUDPServidor.ViewModels
                 byte[] buffer = Encoding.UTF8.GetBytes(json);
                 udpClient.Send(buffer, buffer.Length, ipe);
             }
-            ActualizarDatos();
+           
             UsuariosGanadores.Clear();
             RespuestasCorrectas.Clear();
             GenerarBinario();
+             ActualizarDatos();
             
         }
 
