@@ -64,11 +64,11 @@
 
                 <Button Style="{StaticResource Button}" DockPanel.Dock="Right" Command="{Binding ReiniciarCommand}" >
                     <DockPanel>
-                        <fa:ImageAwesome Icon="Spinner" Spin="True" SpinDuration="10" Foreground="White" Margin="2" Height="15"/>
+                        <fa:ImageAwesome Icon="Refresh" Spin="True" SpinDuration="10" Foreground="White" Margin="2" Height="15"/>
                         <TextBlock FontSize="20" >Generar número</TextBlock>
                     </DockPanel>
                 </Button>
-                <TextBlock FontWeight="Bold"  FontSize="25" Margin="5" Foreground="White" Text="{Binding IP}" ></TextBlock>
+                <TextBlock FontWeight="Bold"  FontSize="25" Margin="5" Foreground="White" Text="{Binding IP}"><Run Text="IP: "></Run></TextBlock>
             </DockPanel>
         </Border>
         <TextBlock FontSize="20" Style="{StaticResource text1}">Número: <Run Foreground="Red" FontWeight="Black" Text="{Binding BinarioGenerado}" ></Run></TextBlock>
@@ -76,6 +76,7 @@
             <DockPanel>
                 <fa:ImageAwesome Icon="Trophy" Height="25"/>
                 <TextBlock FontSize="20" HorizontalAlignment="Center">Usuarios ganadores</TextBlock>
+
             </DockPanel>
             <ListView  BorderBrush="Black" FontSize="15" BorderThickness="0"  ItemsSource="{Binding UsuariosGanadores}" Margin="5" Grid.Column="0">
                 <ListView.View>
