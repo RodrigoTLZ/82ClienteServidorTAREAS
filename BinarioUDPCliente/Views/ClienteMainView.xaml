@@ -57,7 +57,7 @@
         </Border>
         <StackPanel Margin="20">
             <DockPanel HorizontalAlignment="Center">
-                <TextBlock Text="IP:   " />
+                <TextBlock Text="IP:    " />
                 <TextBox Text="{Binding IP}"/>
             </DockPanel>
 

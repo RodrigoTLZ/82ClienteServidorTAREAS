@@ -9,6 +9,6 @@
              d:DesignHeight="100" d:DesignWidth="450">
     <DockPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5">
         <fa:ImageAwesome Icon="ThumbsUp" Height="30"/>
-        <TextBlock FontSize="20" Text="¡Felicitaciones! Has adivinado correctamente el número binario." Margin="10" TextWrapping="Wrap"/>
+        <TextBlock Foreground="Green" FontSize="20" Text="¡Felicitaciones! Has adivinado correctamente el número binario." Margin="10" TextWrapping="Wrap"/>
     </DockPanel>
 </UserControl>
