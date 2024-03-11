@@ -27,6 +27,7 @@ namespace BinarioUDPServidor.ViewModels
         public int NumeroEnteroDecimal { get; set; }
         public bool MostrarBinario { get; set; } = true;
         public bool AceptarRespuestas { get; set; } = true;
+        public string MensajeServidor { get; set; }
         BinarioServer servidor = new();
         private UdpClient udpClient;
 
@@ -58,7 +59,11 @@ namespace BinarioUDPServidor.ViewModels
             {
                 if (e.RespuestaUsuario == NumeroEnteroDecimal)
                 {
-                    RespuestasCorrectas.Add(e);
+                    var proye = RespuestasCorrectas.Any(x => x.IPCliente == e.IPCliente);
+                    if(proye == false)
+                    {
+                        RespuestasCorrectas.Add(e);
+                    }
                 }
                 ActualizarDatos();
             }
@@ -85,11 +90,8 @@ namespace BinarioUDPServidor.ViewModels
                     foreach (var item in RespuestasCorrectas)
                     {
                         UsuariosGanadores.Add(new Usuario { Nombre = item.NombreUsuario });
-
-                        // Mensaje de felicitaciones
                         string mensaje = "¡Felicidades, conseguiste adivinar el número!.";
 
-                        // Enviar el mensaje de felicitaciones al cliente
                         var ipe = new IPEndPoint(IPAddress.Parse(item.IPCliente), 10001);
                         var json = JsonSerializer.Serialize(new BinarioDTO { Mensaje = mensaje });
                         byte[] buffer = Encoding.UTF8.GetBytes(json);
@@ -114,10 +116,20 @@ namespace BinarioUDPServidor.ViewModels
 
         private void Reiniciar()
         {
+            foreach (var item in RespuestasCorrectas)
+            {
+                string mensaje = "";
+
+                var ipe = new IPEndPoint(IPAddress.Parse(item.IPCliente), 10001);
+                var json = JsonSerializer.Serialize(new BinarioDTO { Mensaje = mensaje });
+                byte[] buffer = Encoding.UTF8.GetBytes(json);
+                udpClient.Send(buffer, buffer.Length, ipe);
+            }
+            ActualizarDatos();
             UsuariosGanadores.Clear();
             RespuestasCorrectas.Clear();
             GenerarBinario();
-            ActualizarDatos();
+            
         }
 
         private void ActualizarDatos(string? propiedad = null)

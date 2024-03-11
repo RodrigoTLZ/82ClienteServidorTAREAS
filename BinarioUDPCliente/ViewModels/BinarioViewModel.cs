@@ -15,24 +15,19 @@ namespace BinarioUDPCliente.ViewModels
     {
         public BinarioDTO Datos { get; set; } = new();
         BinarioServer ClienteUDP = new();
-        private UdpClient udpClient;
         public string Mensaje { get; set; }
         public ICommand EnviarRespuestaCommand { get; set; }
         public string IP { get; set; } = "0.0.0.0";
         public BinarioViewModel()
         {
-            udpClient = new UdpClient();
             EnviarRespuestaCommand = new RelayCommand(EnviarRespuesta);
             ClienteUDP.RespuestaServidorRecibida += Servidor_RespuestaServidorRecibida;
         }
 
         private void Servidor_RespuestaServidorRecibida(object? sender, BinarioDTO e)
         {
-            if (!string.IsNullOrEmpty(e.Mensaje))
-            {
                 Mensaje = e.Mensaje;
                 ActualizarDatos(nameof(Mensaje));
-            }
         }
 
         private void EnviarRespuesta()

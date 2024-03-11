@@ -31,17 +31,21 @@ namespace BinarioUDPCliente.Services
 
             try
             {
-                IPEndPoint remoto = new(IPAddress.Any, 10001);
-                byte[] buffer = cliente.Receive(ref remoto);
-                BinarioDTO? dto = JsonSerializer.Deserialize<BinarioDTO>(Encoding.UTF8.GetString(buffer));
-
-                if (dto != null)
+                while (true)
                 {
-                    Application.Current.Dispatcher.Invoke(() =>
+                    IPEndPoint remoto = new(IPAddress.Any, 10001);
+                    byte[] buffer = cliente.Receive(ref remoto);
+                    BinarioDTO? dto = JsonSerializer.Deserialize<BinarioDTO>(Encoding.UTF8.GetString(buffer));
+
+                    if (dto != null)
                     {
-                        RespuestaServidorRecibida?.Invoke(this, dto);
-                    });
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            RespuestaServidorRecibida?.Invoke(this, dto);
+                        });
+                    }
                 }
+                
             }
             catch (Exception)
             {

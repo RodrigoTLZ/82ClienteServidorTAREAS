@@ -36,6 +36,8 @@ namespace BinarioUDPServidor.Services
            
             try
             {
+                while (true)
+                {
                     IPEndPoint remoto = new(IPAddress.Any, 10000);
                     byte[] buffer = server.Receive(ref remoto);
                     BinarioDTO? dto = JsonSerializer.Deserialize<BinarioDTO>(Encoding.UTF8.GetString(buffer));
@@ -47,6 +49,8 @@ namespace BinarioUDPServidor.Services
                             RespuestaRecibida?.Invoke(this, dto);
                         });
                     }
+                }
+                    
             }
             catch (Exception)
             {

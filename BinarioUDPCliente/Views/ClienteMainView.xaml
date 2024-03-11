@@ -69,6 +69,6 @@
 
             <Button Content="Enviar Respuesta" Margin="10,50,10,10" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding EnviarRespuestaCommand}"/>
         </StackPanel>
-        <TextBlock Text="{Binding Mensaje}" FontSize="20"></TextBlock>
+        <TextBlock Text="{Binding Mensaje}" Foreground="Green" FontWeight="Bold" FontSize="15"></TextBlock>
     </StackPanel>
 </Window>

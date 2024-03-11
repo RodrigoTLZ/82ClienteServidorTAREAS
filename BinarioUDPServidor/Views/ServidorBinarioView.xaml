@@ -84,6 +84,7 @@
                     </GridView>
                 </ListView.View>
             </ListView>
+            <TextBlock FontWeight="Bold" HorizontalAlignment="Center">No hubo ganadores en esta ronda</TextBlock>
         </StackPanel>
 
     </StackPanel>
